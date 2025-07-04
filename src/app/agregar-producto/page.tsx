@@ -1,45 +1,45 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ProductoSchema, type Producto } from '@/lib/schemas';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductoSchema, type Producto } from "@/lib/schemas";
 
 export default function AgregarProducto() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [serverError, setServerError] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<Producto>({
     resolver: zodResolver(ProductoSchema),
     defaultValues: {
-      nombre: '',
+      nombre: "",
       precio: 0,
-      categoria: '',
+      categoria: "",
       stock: 0,
-      descripcion: ''
-    }
+      descripcion: "",
+    },
   });
 
   const onSubmit = async (data: Producto) => {
     setIsLoading(true);
-    setServerError('');
-    setSuccessMessage('');
+    setServerError("");
+    setSuccessMessage("");
 
     try {
       // Enviar datos al servidor
-      const response = await fetch('/api/productos', {
-        method: 'POST',
+      const response = await fetch("/api/productos", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -47,19 +47,19 @@ export default function AgregarProducto() {
       const result = await response.json();
 
       if (result.success) {
-        setSuccessMessage('¡Producto agregado exitosamente!');
+        setSuccessMessage("¡Producto agregado exitosamente!");
         reset(); // Limpiar formulario
-        
+
         // Redirigir después de 2 segundos
         setTimeout(() => {
-          router.push('/');
+          router.push("/");
         }, 2000);
       } else {
-        setServerError(result.error || 'Error al agregar producto');
+        setServerError(result.error || "Error al agregar producto");
       }
     } catch (error) {
-      console.error('Error:', error);
-      setServerError('Error de conexión. Intenta nuevamente.');
+      console.error("Error:", error);
+      setServerError("Error de conexión. Intenta nuevamente.");
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +73,7 @@ export default function AgregarProducto() {
             <h1 className="text-3xl font-bold text-gray-900">
               📦 Agregar Producto
             </h1>
-            <Link 
+            <Link
               href="/"
               className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
             >
@@ -93,56 +93,72 @@ export default function AgregarProducto() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-black">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6 text-black"
+          >
             {/* Nombre del producto */}
             <div>
-              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="nombre"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Nombre del Producto *
               </label>
               <input
                 type="text"
                 id="nombre"
-                {...register('nombre')}
+                {...register("nombre")}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.nombre ? 'border-red-500' : 'border-gray-300'
+                  errors.nombre ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Ej: Laptop HP Pavilion"
               />
               {errors.nombre && (
-                <p className="mt-1 text-sm text-red-600">{errors.nombre.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.nombre.message}
+                </p>
               )}
             </div>
 
             {/* Precio */}
             <div>
-              <label htmlFor="precio" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="precio"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Precio (CLP) *
               </label>
               <input
                 type="number"
                 id="precio"
-                {...register('precio', { valueAsNumber: true })}
+                {...register("precio", { valueAsNumber: true })}
                 min="1"
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.precio ? 'border-red-500' : 'border-gray-300'
+                  errors.precio ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Ej: 899990"
               />
               {errors.precio && (
-                <p className="mt-1 text-sm text-red-600">{errors.precio.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.precio.message}
+                </p>
               )}
             </div>
 
             {/* Categoría */}
             <div>
-              <label htmlFor="categoria" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="categoria"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Categoría *
               </label>
               <select
                 id="categoria"
-                {...register('categoria')}
+                {...register("categoria")}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.categoria ? 'border-red-500' : 'border-gray-300'
+                  errors.categoria ? "border-red-500" : "border-gray-300"
                 }`}
               >
                 <option value="">Selecciona una categoría</option>
@@ -154,46 +170,58 @@ export default function AgregarProducto() {
                 <option value="Hogar">Hogar</option>
               </select>
               {errors.categoria && (
-                <p className="mt-1 text-sm text-red-600">{errors.categoria.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.categoria.message}
+                </p>
               )}
             </div>
 
             {/* Stock */}
             <div>
-              <label htmlFor="stock" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="stock"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Stock Inicial *
               </label>
               <input
                 type="number"
                 id="stock"
-                {...register('stock', { valueAsNumber: true })}
+                {...register("stock", { valueAsNumber: true })}
                 min="0"
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.stock ? 'border-red-500' : 'border-gray-300'
+                  errors.stock ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Ej: 15"
               />
               {errors.stock && (
-                <p className="mt-1 text-sm text-red-600">{errors.stock.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.stock.message}
+                </p>
               )}
             </div>
 
             {/* Descripción */}
             <div>
-              <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="descripcion"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Descripción (Opcional)
               </label>
               <textarea
                 id="descripcion"
-                {...register('descripcion')}
+                {...register("descripcion")}
                 rows={4}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.descripcion ? 'border-red-500' : 'border-gray-300'
+                  errors.descripcion ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Describe las características del producto..."
               />
               {errors.descripcion && (
-                <p className="mt-1 text-sm text-red-600">{errors.descripcion.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.descripcion.message}
+                </p>
               )}
             </div>
 
@@ -204,11 +232,11 @@ export default function AgregarProducto() {
                 disabled={isLoading}
                 className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors ${
                   isLoading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 }`}
               >
-                {isLoading ? 'Agregando producto...' : 'Agregar Producto'}
+                {isLoading ? "Agregando producto..." : "Agregar Producto"}
               </button>
             </div>
           </form>

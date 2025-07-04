@@ -53,7 +53,7 @@ Ejecuta el script SQL en tu base de datos MariaDB:
 
 ```bash
 # Conectarse a la base de datos y ejecutar:
-mysql -h database-1.ci4vpdou2rym.us-east-1.rds.amazonaws.com -u admin -p < database_setup.sql
+mariadb -h database-1.ci4vpdou2rym.us-east-1.rds.amazonaws.com -u admin -p < database_setup.sql
 ```
 
 O copia y pega el contenido de `database_setup.sql` en tu cliente MySQL/MariaDB.

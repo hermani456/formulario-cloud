@@ -7,10 +7,10 @@ export async function GET() {
     const productos = await executeQuery(
       'SELECT * FROM productos ORDER BY fecha_creacion DESC'
     ) as ProductoConId[];
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: productos 
+
+    return NextResponse.json({
+      success: true,
+      data: productos
     });
   } catch (error) {
     console.error('Error obteniendo productos:', error);
@@ -24,22 +24,22 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validar datos con Zod
     const validacion = ProductoSchema.safeParse(body);
     if (!validacion.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Datos inválidos',
-          detalles: validacion.error.issues 
+          detalles: validacion.error.issues
         },
         { status: 400 }
       );
     }
 
     const { nombre, precio, categoria, stock, descripcion } = validacion.data;
-    
+
     // Insertar producto en la base de datos
     const resultado = await executeQuery(
       'INSERT INTO productos (nombre, precio, categoria, stock, descripcion) VALUES (?, ?, ?, ?, ?)',

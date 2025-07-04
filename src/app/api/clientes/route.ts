@@ -7,10 +7,10 @@ export async function GET() {
     const clientes = await executeQuery(
       'SELECT * FROM clientes ORDER BY fecha_creacion DESC'
     ) as ClienteConId[];
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: clientes 
+
+    return NextResponse.json({
+      success: true,
+      data: clientes
     });
   } catch (error) {
     console.error('Error obteniendo clientes:', error);
@@ -24,22 +24,22 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validar datos con Zod
     const validacion = ClienteSchema.safeParse(body);
     if (!validacion.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Datos inválidos',
-          detalles: validacion.error.issues 
+          detalles: validacion.error.issues
         },
         { status: 400 }
       );
     }
 
     const { nombre, email, telefono, direccion } = validacion.data;
-    
+
     // Verificar si el email ya existe
     const emailExistente = await executeQuery(
       'SELECT id FROM clientes WHERE email = ?',
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Insertar cliente en la base de datos
     const resultado = await executeQuery(
       'INSERT INTO clientes (nombre, email, telefono, direccion) VALUES (?, ?, ?, ?)',

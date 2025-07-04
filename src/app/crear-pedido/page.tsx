@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { PedidoSchema, type Pedido } from '@/lib/schemas';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PedidoSchema, type Pedido } from "@/lib/schemas";
 
 interface Cliente {
   id: number;
@@ -28,31 +28,31 @@ export default function CrearPedido() {
   const [selectedProduct, setSelectedProduct] = useState<Producto | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [serverError, setServerError] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch
+    watch,
   } = useForm<Pedido>({
     resolver: zodResolver(PedidoSchema),
     defaultValues: {
       cliente_id: 0,
       producto_id: 0,
-      cantidad: 1
-    }
+      cantidad: 1,
+    },
   });
 
   // Observar cambios en producto_id para actualizar selectedProduct
-  const watchedProductoId = watch('producto_id');
+  const watchedProductoId = watch("producto_id");
 
   // Actualizar selectedProduct cuando cambie el producto seleccionado
   useEffect(() => {
     if (watchedProductoId && watchedProductoId > 0) {
-      const producto = productos.find(p => p.id === watchedProductoId);
+      const producto = productos.find((p) => p.id === watchedProductoId);
       setSelectedProduct(producto || null);
     } else {
       setSelectedProduct(null);
@@ -64,8 +64,8 @@ export default function CrearPedido() {
     const loadData = async () => {
       try {
         const [clientesRes, productosRes] = await Promise.all([
-          fetch('/api/clientes'),
-          fetch('/api/productos')
+          fetch("/api/clientes"),
+          fetch("/api/productos"),
         ]);
 
         const clientesData = await clientesRes.json();
@@ -79,8 +79,8 @@ export default function CrearPedido() {
           setProductos(productosData.data);
         }
       } catch (error) {
-        console.error('Error cargando datos:', error);
-        setServerError('Error cargando datos. Recarga la página.');
+        console.error("Error cargando datos:", error);
+        setServerError("Error cargando datos. Recarga la página.");
       } finally {
         setIsLoadingData(false);
       }
@@ -90,34 +90,36 @@ export default function CrearPedido() {
   }, []);
 
   const calcularTotal = () => {
-    const cantidad = watch('cantidad');
+    const cantidad = watch("cantidad");
     if (selectedProduct && cantidad && cantidad > 0) {
-      return (selectedProduct.precio * cantidad).toLocaleString('es-CL');
+      return (selectedProduct.precio * cantidad).toLocaleString("es-CL");
     }
-    return '0';
+    return "0";
   };
 
   const formatearPrecio = (precio: number) => {
-    return precio.toLocaleString('es-CL');
+    return precio.toLocaleString("es-CL");
   };
 
   const onSubmit = async (data: Pedido) => {
     setIsLoading(true);
-    setServerError('');
-    setSuccessMessage('');
+    setServerError("");
+    setSuccessMessage("");
 
     try {
       // Verificar stock disponible
       if (selectedProduct && data.cantidad > selectedProduct.stock) {
-        setServerError(`Stock insuficiente. Disponible: ${selectedProduct.stock}`);
+        setServerError(
+          `Stock insuficiente. Disponible: ${selectedProduct.stock}`
+        );
         return;
       }
 
       // Enviar datos al servidor
-      const response = await fetch('/api/pedidos', {
-        method: 'POST',
+      const response = await fetch("/api/pedidos", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -125,31 +127,39 @@ export default function CrearPedido() {
       const result = await response.json();
 
       if (result.success) {
-        setSuccessMessage(`¡Pedido creado exitosamente! Total: $${result.data.monto_total.toLocaleString('es-CL')}`);
+        setSuccessMessage(
+          `¡Pedido creado exitosamente! Total: $${result.data.monto_total.toLocaleString(
+            "es-CL"
+          )}`
+        );
         reset(); // Limpiar formulario
         setSelectedProduct(null);
-        
+
         // Recargar productos para actualizar stock
-        const productosRes = await fetch('/api/productos');
+        const productosRes = await fetch("/api/productos");
         const productosData = await productosRes.json();
         if (productosData.success) {
           setProductos(productosData.data);
         }
-        
+
         // Redirigir después de 3 segundos
         setTimeout(() => {
-          router.push('/');
+          router.push("/");
         }, 3000);
       } else {
         if (result.detalles) {
-          setServerError(result.detalles.map((d: { message: string }) => d.message).join(', '));
+          setServerError(
+            result.detalles
+              .map((d: { message: string }) => d.message)
+              .join(", ")
+          );
         } else {
-          setServerError(result.error || 'Error al crear pedido');
+          setServerError(result.error || "Error al crear pedido");
         }
       }
     } catch (error) {
-      console.error('Error:', error);
-      setServerError('Error de conexión. Intenta nuevamente.');
+      console.error("Error:", error);
+      setServerError("Error de conexión. Intenta nuevamente.");
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +184,7 @@ export default function CrearPedido() {
             <h1 className="text-3xl font-bold text-gray-900">
               🛒 Crear Pedido
             </h1>
-            <Link 
+            <Link
               href="/"
               className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
             >
@@ -197,8 +207,11 @@ export default function CrearPedido() {
           {/* Verificar si hay datos disponibles */}
           {clientes.length === 0 && (
             <div className="mb-6 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-lg">
-              ⚠️ No hay clientes registrados. 
-              <Link href="/registrar-cliente" className="font-medium underline ml-1">
+              ⚠️ No hay clientes registrados.
+              <Link
+                href="/registrar-cliente"
+                className="font-medium underline ml-1"
+              >
                 Registra un cliente primero
               </Link>
             </div>
@@ -206,24 +219,33 @@ export default function CrearPedido() {
 
           {productos.length === 0 && (
             <div className="mb-6 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-lg">
-              ⚠️ No hay productos disponibles. 
-              <Link href="/agregar-producto" className="font-medium underline ml-1">
+              ⚠️ No hay productos disponibles.
+              <Link
+                href="/agregar-producto"
+                className="font-medium underline ml-1"
+              >
                 Agrega un producto primero
               </Link>
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-black">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6 text-black"
+          >
             {/* Seleccionar Cliente */}
             <div>
-              <label htmlFor="cliente_id" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="cliente_id"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Cliente *
               </label>
               <select
                 id="cliente_id"
-                {...register('cliente_id', { valueAsNumber: true })}
+                {...register("cliente_id", { valueAsNumber: true })}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                  errors.cliente_id ? 'border-red-500' : 'border-gray-300'
+                  errors.cliente_id ? "border-red-500" : "border-gray-300"
                 }`}
                 disabled={clientes.length === 0}
               >
@@ -235,66 +257,91 @@ export default function CrearPedido() {
                 ))}
               </select>
               {errors.cliente_id && (
-                <p className="mt-1 text-sm text-red-600">{errors.cliente_id.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.cliente_id.message}
+                </p>
               )}
             </div>
 
             {/* Seleccionar Producto */}
             <div>
-              <label htmlFor="producto_id" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="producto_id"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Producto *
               </label>
               <select
                 id="producto_id"
-                {...register('producto_id', { valueAsNumber: true })}
+                {...register("producto_id", { valueAsNumber: true })}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                  errors.producto_id ? 'border-red-500' : 'border-gray-300'
+                  errors.producto_id ? "border-red-500" : "border-gray-300"
                 }`}
                 disabled={productos.length === 0}
               >
                 <option value={0}>Selecciona un producto</option>
                 {productos.map((producto) => (
                   <option key={producto.id} value={producto.id}>
-                    {producto.nombre} - ${formatearPrecio(producto.precio)} (Stock: {producto.stock})
+                    {producto.nombre} - ${formatearPrecio(producto.precio)}{" "}
+                    (Stock: {producto.stock})
                   </option>
                 ))}
               </select>
               {errors.producto_id && (
-                <p className="mt-1 text-sm text-red-600">{errors.producto_id.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.producto_id.message}
+                </p>
               )}
             </div>
 
             {/* Información del producto seleccionado */}
             {selectedProduct && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="font-medium text-blue-900 mb-2">📦 Producto seleccionado:</h3>
+                <h3 className="font-medium text-blue-900 mb-2">
+                  📦 Producto seleccionado:
+                </h3>
                 <div className="text-sm text-blue-800 space-y-1">
-                  <p><strong>Nombre:</strong> {selectedProduct.nombre}</p>
-                  <p><strong>Precio:</strong> ${formatearPrecio(selectedProduct.precio)}</p>
-                  <p><strong>Categoría:</strong> {selectedProduct.categoria}</p>
-                  <p><strong>Stock disponible:</strong> {selectedProduct.stock} unidades</p>
+                  <p>
+                    <strong>Nombre:</strong> {selectedProduct.nombre}
+                  </p>
+                  <p>
+                    <strong>Precio:</strong> $
+                    {formatearPrecio(selectedProduct.precio)}
+                  </p>
+                  <p>
+                    <strong>Categoría:</strong> {selectedProduct.categoria}
+                  </p>
+                  <p>
+                    <strong>Stock disponible:</strong> {selectedProduct.stock}{" "}
+                    unidades
+                  </p>
                 </div>
               </div>
             )}
 
             {/* Cantidad */}
             <div>
-              <label htmlFor="cantidad" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="cantidad"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Cantidad *
               </label>
               <input
                 type="number"
                 id="cantidad"
-                {...register('cantidad', { valueAsNumber: true })}
+                {...register("cantidad", { valueAsNumber: true })}
                 min="1"
                 max={selectedProduct?.stock || 1000}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                  errors.cantidad ? 'border-red-500' : 'border-gray-300'
+                  errors.cantidad ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Ej: 1"
               />
               {errors.cantidad && (
-                <p className="mt-1 text-sm text-red-600">{errors.cantidad.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.cantidad.message}
+                </p>
               )}
               {selectedProduct && (
                 <p className="mt-1 text-sm text-gray-500">
@@ -304,14 +351,25 @@ export default function CrearPedido() {
             </div>
 
             {/* Resumen del pedido */}
-            {selectedProduct && watch('cantidad') && watch('cantidad') > 0 && (
+            {selectedProduct && watch("cantidad") && watch("cantidad") > 0 && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <h3 className="font-medium text-green-900 mb-2">💰 Resumen del pedido:</h3>
+                <h3 className="font-medium text-green-900 mb-2">
+                  💰 Resumen del pedido:
+                </h3>
                 <div className="text-sm text-green-800 space-y-1">
-                  <p><strong>Producto:</strong> {selectedProduct.nombre}</p>
-                  <p><strong>Precio unitario:</strong> ${formatearPrecio(selectedProduct.precio)}</p>
-                  <p><strong>Cantidad:</strong> {watch('cantidad')}</p>
-                  <p className="text-lg font-bold"><strong>Total:</strong> ${calcularTotal()}</p>
+                  <p>
+                    <strong>Producto:</strong> {selectedProduct.nombre}
+                  </p>
+                  <p>
+                    <strong>Precio unitario:</strong> $
+                    {formatearPrecio(selectedProduct.precio)}
+                  </p>
+                  <p>
+                    <strong>Cantidad:</strong> {watch("cantidad")}
+                  </p>
+                  <p className="text-lg font-bold">
+                    <strong>Total:</strong> ${calcularTotal()}
+                  </p>
                 </div>
               </div>
             )}
@@ -320,14 +378,16 @@ export default function CrearPedido() {
             <div className="pt-4">
               <button
                 type="submit"
-                disabled={isLoading || clientes.length === 0 || productos.length === 0}
+                disabled={
+                  isLoading || clientes.length === 0 || productos.length === 0
+                }
                 className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors ${
                   isLoading || clientes.length === 0 || productos.length === 0
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 }`}
               >
-                {isLoading ? 'Creando pedido...' : 'Crear Pedido'}
+                {isLoading ? "Creando pedido..." : "Crear Pedido"}
               </button>
             </div>
           </form>

@@ -59,8 +59,8 @@ export async function GET() {
       LIMIT 10
     `);
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       data: {
         reporte_completo: reporte,
         estadisticas: estadisticas,

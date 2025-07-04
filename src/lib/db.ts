@@ -1,11 +1,11 @@
 import mysql from 'mysql2/promise';
 
 const connectionConfig = {
-  host: process.env.DB_HOST || 'database-1.ci4vpdou2rym.us-east-1.rds.amazonaws.com',
-  port: parseInt(process.env.DB_PORT || '3306'),
-  user: process.env.DB_USER || 'admin',
-  password: process.env.DB_PASSWORD || 'wi9=b!fMMq8W$~U',
-  database: process.env.DB_NAME || 'tienda_online',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   ssl: {
     rejectUnauthorized: false
   }

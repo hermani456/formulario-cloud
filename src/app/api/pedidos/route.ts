@@ -20,10 +20,10 @@ export async function GET() {
       INNER JOIN productos pr ON p.producto_id = pr.id
       ORDER BY p.fecha_pedido DESC
     `) as PedidoConId[];
-    
-    return NextResponse.json({ 
-      success: true, 
-      data: pedidos 
+
+    return NextResponse.json({
+      success: true,
+      data: pedidos
     });
   } catch (error) {
     console.error('Error obteniendo pedidos:', error);
@@ -37,22 +37,22 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validar datos con Zod
     const validacion = PedidoSchema.safeParse(body);
     if (!validacion.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Datos inválidos',
-          detalles: validacion.error.issues 
+          detalles: validacion.error.issues
         },
         { status: 400 }
       );
     }
 
     const { cliente_id, producto_id, cantidad } = validacion.data;
-    
+
     // Verificar que el cliente existe
     const cliente = await executeQuery(
       'SELECT id FROM clientes WHERE id = ?',
@@ -87,13 +87,13 @@ export async function POST(request: NextRequest) {
     }
 
     const monto_total = producto[0].precio * cantidad;
-    
+
     // Iniciar transacción
     const connection = await import('@/lib/db').then(db => db.getConnection());
-    
+
     try {
       await connection.beginTransaction();
-      
+
       // Insertar pedido
       const [resultadoPedido] = await connection.execute(
         'INSERT INTO pedidos (cliente_id, producto_id, cantidad, monto_total) VALUES (?, ?, ?, ?)',
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       );
 
       await connection.commit();
-      
+
       return NextResponse.json({
         success: true,
         message: 'Pedido creado exitosamente',
