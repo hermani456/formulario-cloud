@@ -142,10 +142,10 @@ export default function CrearPedido() {
           setProductos(productosData.data);
         }
 
-        // Redirigir después de 3 segundos
+        // Redirigir después de 1.5 segundos
         setTimeout(() => {
           router.push("/");
-        }, 3000);
+        }, 1500);
       } else {
         if (result.detalles) {
           setServerError(

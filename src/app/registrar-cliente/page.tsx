@@ -49,10 +49,10 @@ export default function RegistrarCliente() {
         setSuccessMessage("¡Cliente registrado exitosamente!");
         reset(); // Limpiar formulario
 
-        // Redirigir después de 2 segundos
+        // Redirigir después de 1 segundos
         setTimeout(() => {
           router.push("/");
-        }, 2000);
+        }, 1000);
       } else {
         setServerError(result.error || "Error al registrar cliente");
       }
@@ -193,21 +193,6 @@ export default function RegistrarCliente() {
                   {errors.direccion.message}
                 </p>
               )}
-            </div>
-
-            {/* Información adicional */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-2">
-                ℹ️ Información importante:
-              </h3>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Todos los campos marcados con (*) son obligatorios</li>
-                <li>• El email debe ser único en el sistema</li>
-                <li>
-                  • Los datos se utilizarán para gestionar pedidos y
-                  comunicaciones
-                </li>
-              </ul>
             </div>
 
             {/* Botón de envío */}

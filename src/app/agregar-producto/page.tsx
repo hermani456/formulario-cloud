@@ -50,10 +50,10 @@ export default function AgregarProducto() {
         setSuccessMessage("¡Producto agregado exitosamente!");
         reset(); // Limpiar formulario
 
-        // Redirigir después de 2 segundos
+        // Redirigir después de 1 segundos
         setTimeout(() => {
           router.push("/");
-        }, 2000);
+        }, 1000);
       } else {
         setServerError(result.error || "Error al agregar producto");
       }

@@ -92,10 +92,10 @@ export default function ReporteVentas() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900">
-              📊 Reporte de Ventas (OUTER JOIN)
+              📊 Reporte de Ventas
             </h1>
             <p className="text-lg text-gray-600 mt-2">
-              Muestra TODOS los productos con su información de ventas usando LEFT OUTER JOIN
+              Muestra todos los productos con su información de ventas
             </p>
           </div>
           <Link
@@ -109,7 +109,7 @@ export default function ReporteVentas() {
         {/* Filtros */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">🔍 Filtros</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-black">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Filtrar por Categoría
@@ -146,24 +146,7 @@ export default function ReporteVentas() {
 
         {/* Tabla del reporte completo */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900">
-              📋 Reporte Completo - LEFT OUTER JOIN
-            </h2>
-            <p className="text-gray-600 mt-2">
-              Esta tabla demuestra el uso de <strong>LEFT OUTER JOIN</strong> mostrando TODOS los productos 
-              del inventario junto con sus ventas (si las tienen). Los productos <span className="text-red-600 font-medium">sin ventas</span> 
-              también aparecen listados, lo que no ocurriría con un INNER JOIN.
-            </p>
-            <div className="mt-3 text-sm">
-              <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded mr-2">
-                🟢 Verde = Producto vendido
-              </span>
-              <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded">
-                🔴 Rojo = Producto sin ventas
-              </span>
-            </div>
-          </div>
+        
 
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
