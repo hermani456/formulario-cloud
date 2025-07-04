@@ -17,7 +17,7 @@ export default function Home() {
           {/* Formulario 1: Agregar Producto */}
           <Link href="/agregar-producto" className="group h-full">
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-blue-300 h-full flex flex-col">
-              <div className="text-center flex-1 flex flex-col justify-center">
+              <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
                   <span className="text-2xl">📦</span>
                 </div>
@@ -34,7 +34,7 @@ export default function Home() {
           {/* Formulario 2: Registrar Cliente */}
           <Link href="/registrar-cliente" className="group h-full">
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-green-300 h-full flex flex-col">
-              <div className="text-center flex-1 flex flex-col justify-center">
+              <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
                   <span className="text-2xl">👥</span>
                 </div>
@@ -51,7 +51,7 @@ export default function Home() {
           {/* Formulario 3: Crear Pedido */}
           <Link href="/crear-pedido" className="group h-full">
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-purple-300 h-full flex flex-col">
-              <div className="text-center flex-1 flex flex-col justify-center">
+              <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors">
                   <span className="text-2xl">🛒</span>
                 </div>
@@ -68,7 +68,7 @@ export default function Home() {
           {/* Reporte con OUTER JOIN */}
           <Link href="/reporte-ventas" className="group h-full">
             <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-300 h-full flex flex-col">
-              <div className="text-center flex-1 flex flex-col justify-center">
+              <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-200 transition-colors">
                   <span className="text-2xl">📊</span>
                 </div>

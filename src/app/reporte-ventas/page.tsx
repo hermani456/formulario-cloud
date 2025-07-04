@@ -20,28 +20,8 @@ interface ReporteItem {
   estado_venta: string;
 }
 
-interface Estadisticas {
-  total_productos: number;
-  productos_vendidos: number;
-  productos_sin_ventas: number;
-  total_pedidos: number;
-  ventas_totales: number;
-  promedio_pedido: number;
-}
-
-interface TopProducto {
-  nombre: string;
-  precio: number;
-  categoria: string;
-  total_pedidos: number;
-  unidades_vendidas: number;
-  ingresos_totales: number;
-}
-
 export default function ReporteVentas() {
   const [reporte, setReporte] = useState<ReporteItem[]>([]);
-  const [estadisticas, setEstadisticas] = useState<Estadisticas | null>(null);
-  const [topProductos, setTopProductos] = useState<TopProducto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [filtroCategoria, setFiltroCategoria] = useState("");
@@ -59,8 +39,6 @@ export default function ReporteVentas() {
 
         if (result.success) {
           setReporte(result.data.reporte_completo);
-          setEstadisticas(result.data.estadisticas[0]);
-          setTopProductos(result.data.top_productos);
         } else {
           setError(result.error || "Error al cargar el reporte");
         }
@@ -112,140 +90,20 @@ export default function ReporteVentas() {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100 py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">
-            📊 Reporte de Ventas (OUTER JOIN)
-          </h1>
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900">
+              📊 Reporte de Ventas (OUTER JOIN)
+            </h1>
+            <p className="text-lg text-gray-600 mt-2">
+              Muestra TODOS los productos con su información de ventas usando LEFT OUTER JOIN
+            </p>
+          </div>
           <Link
             href="/"
             className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
           >
             ← Volver al inicio
           </Link>
-        </div>
-
-        {/* Estadísticas generales */}
-        {estadisticas && (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {estadisticas.total_productos}
-                </div>
-                <div className="text-sm text-gray-600">Total Productos</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
-                  {estadisticas.productos_vendidos}
-                </div>
-                <div className="text-sm text-gray-600">Productos Vendidos</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">
-                  {estadisticas.productos_sin_ventas}
-                </div>
-                <div className="text-sm text-gray-600">Sin Ventas</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
-                  {estadisticas.total_pedidos}
-                </div>
-                <div className="text-sm text-gray-600">Total Pedidos</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">
-                  $
-                  {Number(estadisticas.ventas_totales || 0).toLocaleString(
-                    "es-CL"
-                  )}
-                </div>
-                <div className="text-sm text-gray-600">Ventas Totales</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6 border border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-teal-600">
-                  $
-                  {Number(estadisticas.promedio_pedido || 0).toLocaleString(
-                    "es-CL"
-                  )}
-                </div>
-                <div className="text-sm text-gray-600">Promedio Pedido</div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Top Productos */}
-        <div className="mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              🏆 Top Productos Más Vendidos
-            </h2>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Producto
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Categoría
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Precio
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Unidades Vendidas
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Ingresos Totales
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {topProductos.map((producto, index) => (
-                    <tr key={index} className={index < 3 ? "bg-yellow-50" : ""}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          {index < 3 && (
-                            <span className="text-2xl mr-2">🥇🥈🥉</span>
-                          )}
-                          <div className="text-sm font-medium text-gray-900">
-                            {producto.nombre}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                          {producto.categoria}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${formatearPrecio(producto.precio)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {producto.unidades_vendidas || 0}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
-                        $
-                        {Number(producto.ingresos_totales || 0).toLocaleString(
-                          "es-CL"
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </div>
 
         {/* Filtros */}
@@ -290,13 +148,21 @@ export default function ReporteVentas() {
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-2xl font-bold text-gray-900">
-              📋 Reporte Completo - OUTER JOIN
+              📋 Reporte Completo - LEFT OUTER JOIN
             </h2>
             <p className="text-gray-600 mt-2">
-              Esta tabla muestra TODOS los productos con su información de
-              ventas (usando LEFT OUTER JOIN). Los productos sin ventas también
-              aparecen listados.
+              Esta tabla demuestra el uso de <strong>LEFT OUTER JOIN</strong> mostrando TODOS los productos 
+              del inventario junto con sus ventas (si las tienen). Los productos <span className="text-red-600 font-medium">sin ventas</span> 
+              también aparecen listados, lo que no ocurriría con un INNER JOIN.
             </p>
+            <div className="mt-3 text-sm">
+              <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded mr-2">
+                🟢 Verde = Producto vendido
+              </span>
+              <span className="inline-block bg-red-100 text-red-800 px-2 py-1 rounded">
+                🔴 Rojo = Producto sin ventas
+              </span>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
