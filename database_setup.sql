@@ -65,12 +65,6 @@ INSERT INTO pedidos (cliente_id, producto_id, cantidad, monto_total) VALUES
 (3, 4, 1, 199990),
 (2, 5, 1, 349990);
 
-INSERT INTO pedidos (cliente_id, producto_id, cantidad, monto_total) VALUES
-(1, 1, 1, 899.99),
-(1, 2, 2, 59.98),
-(2, 3, 1, 79.99),
-(3, 4, 1, 199.99),
-(2, 5, 1, 349.99);
 
 -- Consulta de ejemplo para el OUTER JOIN
 -- Esta consulta muestra TODOS los productos con información de pedidos (si existen)
