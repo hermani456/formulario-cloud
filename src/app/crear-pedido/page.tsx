@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PedidoSchema, type Pedido } from "@/lib/schemas";
-import purchase from "@/../public/purchase.png";
 import Image from "next/image";
 
 interface Cliente {
@@ -185,7 +184,7 @@ export default function CrearPedido() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Image
-                src={purchase}
+                src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/purchase.png"
                 alt="Agregar Producto"
                 width={32}
                 height={32}

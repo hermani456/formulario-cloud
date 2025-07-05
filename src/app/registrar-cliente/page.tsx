@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ClienteSchema, type Cliente } from "@/lib/schemas";
-import cliente from "@/../public/youth.png";
 import Image from "next/image";
 
 export default function RegistrarCliente() {
@@ -73,7 +72,7 @@ export default function RegistrarCliente() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Image
-                src={cliente}
+                src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/youth.png"
                 alt="Agregar Producto"
                 width={32}
                 height={32}

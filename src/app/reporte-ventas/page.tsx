@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import report from "@/../public/report.png";
 import Image from "next/image";
 
 interface ReporteItem {
@@ -95,7 +94,7 @@ export default function ReporteVentas() {
           <div>
             <div className="flex items-center gap-3">
               <Image
-                src={report}
+                src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/report.png"
                 alt="Agregar Producto"
                 width={36}
                 height={36}

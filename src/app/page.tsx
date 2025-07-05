@@ -1,10 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import box from "@/../public/box.png";
-import cliente from "@/../public/youth.png";
-import purchase from "@/../public/purchase.png";
-import report from "@/../public/report.png";
-import shop from "@/../public/electronics-shop.png";
 
 export default function Home() {
   return (
@@ -13,7 +8,7 @@ export default function Home() {
         <div className="text-center mb-12">
           <div>
             <Image
-              src={shop}
+              src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/electronics-shop.png"
               alt="Logo de la Tienda"
               width={120}
               height={120}
@@ -35,7 +30,7 @@ export default function Home() {
               <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="flex items-center justify-center mb-4">
                   <Image
-                    src={box}
+                    src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/box.png"
                     alt="Agregar Producto"
                     width={64}
                     height={64}
@@ -57,7 +52,7 @@ export default function Home() {
               <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="flex items-center justify-center mx-auto mb-4">
                   <Image
-                    src={cliente}
+                    src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/youth.png"
                     alt="Registrar Cliente"
                     width={64}
                     height={64}
@@ -79,7 +74,7 @@ export default function Home() {
               <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="flex items-center justify-center mx-auto mb-4">
                   <Image
-                    src={purchase}
+                    src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/purchase.png"
                     alt="Crear Pedido"
                     width={64}
                     height={64}
@@ -101,7 +96,7 @@ export default function Home() {
               <div className="text-center flex-1 flex flex-col justify-baseline">
                 <div className="flex items-center justify-center mx-auto mb-4">
                   <Image
-                    src={report}
+                    src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/report.png"
                     alt="Reporte de Ventas"
                     width={64}
                     height={64}
