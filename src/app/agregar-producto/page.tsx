@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductoSchema, type Producto } from "@/lib/schemas";
+import box from "@/../public/box.png";
+import Image from "next/image";
 
 export default function AgregarProducto() {
   const router = useRouter();
@@ -70,14 +72,38 @@ export default function AgregarProducto() {
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
-              📦 Agregar Producto
-            </h1>
+            <div className="flex items-center gap-3">
+              <Image
+                src={box}
+                alt="Agregar Producto"
+                width={32}
+                height={32}
+                className="inline-block"
+              />
+              <h1 className="text-2xl font-bold text-gray-900">
+                Agregar Producto
+              </h1>
+            </div>
             <Link
               href="/"
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-2"
             >
-              ← Volver al inicio
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="lucide lucide-arrow-left-icon lucide-arrow-left"
+              >
+                <path d="m12 19-7-7 7-7" />
+                <path d="M19 12H5" />
+              </svg>
+              Volver
             </Link>
           </div>
 
