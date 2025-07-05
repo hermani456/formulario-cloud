@@ -64,23 +64,3 @@ INSERT INTO pedidos (cliente_id, producto_id, cantidad, monto_total) VALUES
 (2, 3, 1, 79990),
 (3, 4, 1, 199990),
 (2, 5, 1, 349990);
-
-
--- Consulta de ejemplo para el OUTER JOIN
--- Esta consulta muestra TODOS los productos con información de pedidos (si existen)
-/*
-SELECT 
-    p.id as producto_id,
-    p.nombre as producto_nombre,
-    p.precio,
-    p.categoria,
-    p.stock,
-    c.nombre as cliente_nombre,
-    ped.cantidad,
-    ped.monto_total,
-    ped.fecha_pedido
-FROM productos p
-LEFT OUTER JOIN pedidos ped ON p.id = ped.producto_id
-LEFT OUTER JOIN clientes c ON ped.cliente_id = c.id
-ORDER BY p.nombre, ped.fecha_pedido DESC;
-*/
