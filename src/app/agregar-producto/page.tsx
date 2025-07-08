@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductoSchema, type Producto } from "@/lib/schemas";
-import box from "@/../public/box.png";
 import Image from "next/image";
 
 export default function AgregarProducto() {
@@ -74,7 +73,7 @@ export default function AgregarProducto() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Image
-                src={box}
+                src="https://portfolio-container-bucket.s3.us-east-1.amazonaws.com/box.png"
                 alt="Agregar Producto"
                 width={32}
                 height={32}
